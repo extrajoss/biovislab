@@ -9,11 +9,7 @@
 
 <style>
 @import "vuetify/dist/vuetify.min.css";
-@import "http://fonts.googleapis.com/css?family=Roboto:300,
-  400,
-  500,
-  700,
-  400italic";
+@import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic";
 @import "http://fonts.googleapis.com/icon?family=Material+Icons";
 </style>
 

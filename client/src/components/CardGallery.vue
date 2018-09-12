@@ -99,7 +99,6 @@ export default {
       return index
     },
     addCurrentMessage (index, {title, text}) {
-      console.log(this.$vuetify.theme.accent)
       if (this.currentTitleIndex === index) {
         this.deleteCurrentMessage()
         return

@@ -9,6 +9,7 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
+import spreadsheet from '../../modules/spreadsheet.js'
 
 export default {
   name: 'Projects',
@@ -17,57 +18,21 @@ export default {
   },
   data () {
     return {
-      cards: [
-        {
-          title: 'Centre',
-          images: '/static/projects/centre.png,/static/projects/centre2.png,/static/projects/centre3.png',
-          flex: 8,
-          text: 'some more info on Centre'
-        },
-        {
-          title: 'Aquaria',
-          images: '/static/projects/aquaria.png',
-          flex: 4,
-          text: 'some more info on aquaria'
-        },
-        {
-          title: 'Cancer',
-          images: '/static/projects/cancer.png',
-          flex: 4,
-          text: 'some more info on Cancer'
-        },
-        {
-          title: 'Dark Proteome',
-          images: '/static/projects/darkProteome.png',
-          flex: 4,
-          text: 'some more info on Dark Proteome'
-        },
-        {
-          title: 'Group18',
-          images: '/static/projects/group18.png',
-          flex: 4,
-          text: 'some more info on Group18'
-        },
-        {
-          title: 'Minardo',
-          images: '/static/projects/minardo.png',
-          flex: 4,
-          text: 'some more info on Minardo'
-        },
-        {
-          title: 'Rondo',
-          images: '/static/projects/rondo.png',
-          flex: 8,
-          text: 'some more info on Rondo'
-        },
-        {
-          title: 'Showcase',
-          images: '/static/projects/showcase.png',
-          flex: 12,
-          text: 'some more info on Showcase'
-        }
-      ]
+      cards: []
     }
+  },
+  async mounted () {
+    let sheet = await spreadsheet.getSheet(1)
+    let rows = sheet[1]
+    this.cards = []
+    rows.forEach((row) => {
+      const card = (({ title, images, text, flex }) => ({ title, images, text, flex }))(row)
+      card.flex = parseInt(card.flex)
+      this.cards.push(card)
+    })
+  },
+  methods: {
+
   }
 }
 </script>
