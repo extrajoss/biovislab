@@ -34,6 +34,7 @@
     "express": "*",
     "express-session": "*",
     "fs-extra": "^5.0.0",
+    "google-spreadsheet": "^2.0.5",
     "morgan": "*",
     "multer": "*",
     "nodemailer": "^4.6.7",

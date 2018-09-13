@@ -1,5 +1,6 @@
 <template>
-  <cardGallery v-bind:cards="cards"></cardGallery>
+  <cardGallery v-bind:initialCards="cards"
+               v-bind:title="'People'"></cardGallery>
 </template>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
@@ -9,7 +10,7 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-import spreadsheet from '../../modules/spreadsheet.js'
+const people = require('../../data/People.json')
 
 export default {
   name: 'People',
@@ -18,19 +19,8 @@ export default {
   },
   data () {
     return {
-      cards: [
-      ]
+      cards: people
     }
-  },
-  async mounted () {
-    let sheet = await spreadsheet.getSheet(4)
-    let rows = sheet[1]
-    this.cards = []
-    rows.forEach((row) => {
-      const card = (({ title, images, text, flex }) => ({ title, images, text, flex }))(row)
-      card.flex = parseInt(card.flex)
-      this.cards.push(card)
-    })
   }
 }
 </script>

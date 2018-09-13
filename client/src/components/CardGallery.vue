@@ -47,11 +47,14 @@
 
 <script>
 
+import rpc from '../modules/rpc.js'
+
 export default {
   name: 'cardGallery',
-  props: ['cards'],
+  props: ['initialCards', 'title'],
   data () {
     return {
+      cards: this.initialCards,
       mouseOver: false,
       currentMessageIndex: false,
       currentTitleIndex: false,
@@ -61,9 +64,9 @@ export default {
   methods: {
     openMessage (index, card) {
       if (card.isMessage) {
-        this.deleteCurrentMessage()
+        this.deleteMessage()
       } else {
-        this.addCurrentMessage(index, card)
+        this.addMessage(index, card)
       }
     },
     getImages (card) {
@@ -98,15 +101,15 @@ export default {
       }
       return index
     },
-    addCurrentMessage (index, {title, text}) {
+    addMessage (index, {title, text}) {
       if (this.currentTitleIndex === index) {
-        this.deleteCurrentMessage()
+        this.deleteMessage()
         return
       }
       if (this.currentMessageIndex && this.currentMessageIndex < index) {
         index--
       }
-      this.deleteCurrentMessage()
+      this.deleteMessage()
       let messageIndex = this.getOverflowIndex(index)
       this.currentMessageIndex = messageIndex
       this.currentTitleIndex = index
@@ -117,12 +120,18 @@ export default {
         flex: 12
       })
     },
-    deleteCurrentMessage () {
-      if (this.currentMessageIndex) {
-        this.cards.splice(this.currentMessageIndex, 1)
-        this.currentMessageIndex = false
-        this.currentTitleIndex = false
-      }
+    deleteMessage () {
+      this.cards = this.cards.filter((card) => {
+        return !card.isMessage
+      })
+      this.currentMessageIndex = false
+      this.currentTitleIndex = false
+    }
+  },
+  async mounted () {
+    let response = await rpc.rpcRun('publicGetCards', {'sheetTitle': this.title})
+    if (response.result) {
+      this.cards = response.result
     }
   }
 }
