@@ -70,17 +70,19 @@ const cardsFromRows = (sheetTitle, rows) => {
       title,
       images,
       text,
-      flex
+      flex,
+      aspect
     }) => ({
       title,
       images,
       text,
-      flex
+      flex,
+      aspect
     }))(row)
     card.flex = parseInt(card.flex)
     cards.push(card)
   })
-  let json = JSON.stringify(cards)
+  let json = JSON.stringify(cards, null, 4)
   fs.writeFile(cacheFile, json, 'utf8', console.log(`${sheetTitle} Cache Updated`))
   return cards
 }
@@ -95,6 +97,37 @@ const getCards = async ({
   return cardsFromRows(sheetTitle, rows)
 }
 
+const listFromRows = (sheetTitle, rows) => {
+  const cacheFile = path.resolve(__dirname, `../../../client/src/data/${sheetTitle}.json`)
+  let items = []
+  rows.forEach((row) => {
+    const item = (({
+      title,
+      date,
+      subtitle
+    }) => ({
+      title,
+      date,
+      subtitle
+    }))(row)
+    items.push(item)
+  })
+  let json = JSON.stringify(items, null, 4)
+  fs.writeFile(cacheFile, json, 'utf8', console.log(`${sheetTitle} Cache Updated`))
+  return items
+}
+
+const getList = async ({
+  sheetTitle
+}) => {
+  let rows = await getSheetRows(sheetTitle)
+  if (!rows) {
+    return false
+  }
+  return listFromRows(sheetTitle, rows)
+}
+
 module.exports = {
-  'publicGetCards': getCards
+  'publicGetCards': getCards,
+  'publicGetList': getList
 }

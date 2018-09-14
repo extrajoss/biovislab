@@ -1,52 +1,57 @@
 <template>
-  <v-container fluid
-               grid-list-sm>
-    <v-layout row
-              wrap>
-      <v-flex v-for="(card,index) in cards"
-              v-bind="{ [`sm${card.flex} xs12 `]: true }"
-              :key="card.title">
-        <v-card>
-          <v-carousel v-if="!card.isMessage&&hasMultiImages(card)"
-                      :cycle="mouseOver"
-                      :hide-delimiters="true">
-            <v-carousel-item v-for="(image,i) in getImages(card)"
-                             :key="i"
-                             :src="image"
-                             :gradient="gradient"
-                             v-on:mouseover="mouseOver=true"
-                             v-on:mouseout="mouseOver=false"
-                             @click.native="openMessage(index,card)">
-              <v-card-title class="white--text
-                             headline
-                             ">{{card.title}}</v-card-title>
-            </v-carousel-item>
-          </v-carousel>
-          <v-img v-if="!card.isMessage&&!(hasMultiImages(card))"
-                 :src="card.images"
-                 class="card"
-                 :gradient="gradient"
-                 @click.native="openMessage(index,card)">
+  <v-layout row
+            wrap>
+    <v-flex v-for="(card,index) in cards"
+            v-bind="{ [`sm${card.flex} xs12 `]: true }"
+            :key="card.title">
+      <v-card>
+        <v-carousel v-if="!card.isMessage&&hasMultiImages(card)"
+                    :cycle="mouseOver"
+                    :hide-delimiters="true">
+          <v-carousel-item v-for="(image,i) in getImages(card)"
+                           :key="i"
+                           :src="image"
+                           :gradient="gradient"
+                           v-on:mouseover="mouseOver=true"
+                           v-on:mouseout="mouseOver=false"
+                           @click.native="openMessage(index,card)">
             <v-card-title class="white--text
-                             headline
-                             ">{{card.title}}</v-card-title>
-          </v-img>
-
-          <v-card-text v-if="card.isMessage
-                             "
-                       v-html="card.text"></v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+              text-xs-center
+              headline
+              ">
+              <p class="text-xs-center">{{card.title}}</p>
+            </v-card-title>
+          </v-carousel-item>
+        </v-carousel>
+        <v-img v-if="!card.isMessage&&!(hasMultiImages(card))"
+               :src="card.images"
+               class="card"
+               :aspect-ratio="card.aspect"
+               :gradient="gradient"
+               @click.native="openMessage(index,card)">
+          <v-card-text class="white--text
+            text-xs-center
+            card-title
+            headline">
+            {{card.title}}
+          </v-card-text>
+        </v-img>
+        <v-card-text v-if="card.isMessage"
+                     v-html="card.text">
+        </v-card-text>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
-
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
+.card-title {
+  position: absolute;
+  bottom: 0;
+}
 </style>
 
 <script>
-
 import rpc from '../modules/rpc.js'
 
 export default {
@@ -58,7 +63,7 @@ export default {
       mouseOver: false,
       currentMessageIndex: false,
       currentTitleIndex: false,
-      gradient: `${this.$vuetify.theme.secondary}A0  40px,${this.$vuetify.theme.secondary}00 80px, ${this.$vuetify.theme.secondary}00`
+      gradient: `to top,${this.$vuetify.theme.secondary}A0  40px,${this.$vuetify.theme.secondary}00 80px, ${this.$vuetify.theme.secondary}00`
     }
   },
   methods: {

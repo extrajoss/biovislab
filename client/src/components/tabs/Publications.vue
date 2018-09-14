@@ -1,6 +1,6 @@
 <template>
   <cardGallery v-bind:initialCards="cards"
-               v-bind:title="'People'"></cardGallery>
+               v-bind:title="'Publications'"></cardGallery>
 </template>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
@@ -10,16 +10,16 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-const people = require('../../data/People.json')
+const publications = require('../../data/Publications.json')
 
 export default {
-  name: 'People',
+  name: 'Publications',
   components: {
     'cardGallery': cardGallery
   },
   data () {
     return {
-      cards: people
+      cards: publications
     }
   },
   mounted () {

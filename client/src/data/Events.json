@@ -1,0 +1,42 @@
+[
+    {
+        "title": "The annual conference on Visualising Biological Data (VIZBI 2019), EMBL, Heidelberg Germany.",
+        "date": "13-15 March 2019",
+        "subtitle": "Some other info"
+    },
+    {
+        "title": "Speaker at EMBO Workshop 'In situ methods in Cell Biology and Cellular Biophysics,' Berlin Germany.",
+        "date": "26-28 July 2018",
+        "subtitle": "Some new piece of info"
+    },
+    {
+        "title": "Invited speaker at Winter School in Mathematical & Computational Biology, Brisbane Australia",
+        "date": "2-6 July 2018",
+        "subtitle": ""
+    },
+    {
+        "title": "Beautiful and Dangerous, a Vivid Lights installation by the VIZBI lab, Sydney Australia",
+        "date": "25 May-16 June 2018",
+        "subtitle": ""
+    },
+    {
+        "title": "Panelist at Meet the Defenders: Protecting us from a deadly outbreak, Sydney Australia",
+        "date": "28 May 2018",
+        "subtitle": ""
+    },
+    {
+        "title": "Presenter at Data Visualization Masterclass, Sydney Australia",
+        "date": "31 May 2018",
+        "subtitle": ""
+    },
+    {
+        "title": "MC at VIZBI Showcase: Bridging Science, Art, and Design, Sydney Australia",
+        "date": "1 June 2018",
+        "subtitle": ""
+    },
+    {
+        "title": "Keynote speaker at workshop on 'Molecular Graphics and Visual Analysis of Molecular Data,' EuroVis 2018, Brno Czech Republic.",
+        "date": "4 June 2018",
+        "subtitle": ""
+    }
+]

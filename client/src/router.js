@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from './components/tabs/Home'
 import People from './components/tabs/People'
 import Projects from './components/tabs/Projects'
+import Publications from './components/tabs/Publications'
 import About from './components/tabs/About'
 import Private from './components/tabs/Private'
 import Login from './components/Login'
@@ -35,6 +36,11 @@ let router = new Router({
     path: '/projects',
     name: 'projects',
     component: Projects
+  },
+  {
+    path: '/Publications',
+    name: 'Publications',
+    component: Publications
   },
   {
     path: '/people',

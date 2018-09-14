@@ -19,6 +19,10 @@
              to="/projects"
              router>Projects
       </v-tab>
+      <v-tab id="tab-publications"
+             to="/publications"
+             router>Publications
+      </v-tab>
       <v-tab id="tab-people"
              to="/people"
              router>People

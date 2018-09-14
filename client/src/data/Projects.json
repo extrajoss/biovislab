@@ -1,1 +1,79 @@
-[{"title":"Centre","images":"/static/projects/centre.png,/static/projects/centre2.png,/static/projects/centre3.png","text":"some more info on Centre","flex":8},{"title":"Aquaria","images":"/static/projects/aquaria.png","text":"some more info on aquaria","flex":4},{"title":"Cancer","images":"/static/projects/cancer.png","text":"some more info on Cancer","flex":4},{"title":"Dark Proteome","images":"/static/projects/darkProteome.png","text":"some more info on Dark Proteome","flex":4},{"title":"Group18","images":"/static/projects/group18.png","text":"some more info on Group18","flex":4},{"title":"Minardo","images":"/static/projects/minardo.png","text":"some more info on Minardo","flex":4},{"title":"Rondo","images":"/static/projects/rondo.png","text":"some more info on Rondo","flex":8},{"title":"Showcase","images":"/static/projects/showcase.png","text":"some more info on Showcase","flex":12},{"title":"Data vis masterclass","images":"/static/projects/group18.png","text":"","flex":4},{"title":"Versus","images":"/static/projects/group18.png","text":"","flex":4},{"title":"VIZBI conference","images":"/static/projects/group18.png","text":"","flex":4}]
+[
+    {
+        "title": "Centre",
+        "images": "/static/projects/centre.png",
+        "text": "some more info on Centre",
+        "flex": 9,
+        "aspect": "2.4"
+    },
+    {
+        "title": "Aquaria",
+        "images": "/static/projects/aquaria.png",
+        "text": "some more info on aquaria",
+        "flex": 3,
+        "aspect": "0.8"
+    },
+    {
+        "title": "Cancer",
+        "images": "/static/projects/cancer.png",
+        "text": "some more info on Cancer",
+        "flex": 4,
+        "aspect": "1.2"
+    },
+    {
+        "title": "Dark Proteome",
+        "images": "/static/projects/darkProteome.png",
+        "text": "some more info on Dark Proteome",
+        "flex": 4,
+        "aspect": "1.2"
+    },
+    {
+        "title": "Group18",
+        "images": "/static/projects/group18.png",
+        "text": "some more info on Group18",
+        "flex": 4,
+        "aspect": "1.2"
+    },
+    {
+        "title": "Minardo",
+        "images": "/static/projects/minardo.png",
+        "text": "some more info on Minardo",
+        "flex": 4,
+        "aspect": "1.5"
+    },
+    {
+        "title": "Rondo",
+        "images": "/static/projects/rondo.png",
+        "text": "some more info on Rondo",
+        "flex": 8,
+        "aspect": "3"
+    },
+    {
+        "title": "Showcase",
+        "images": "/static/projects/showcase.png",
+        "text": "some more info on Showcase",
+        "flex": 12,
+        "aspect": "12"
+    },
+    {
+        "title": "Data vis masterclass",
+        "images": "/static/projects/group18.png",
+        "text": "some more info on Masterclass",
+        "flex": 4,
+        "aspect": "1"
+    },
+    {
+        "title": "Versus",
+        "images": "/static/projects/group18.png",
+        "text": "some more info on Versus",
+        "flex": 4,
+        "aspect": "1"
+    },
+    {
+        "title": "VIZBI conference",
+        "images": "/static/projects/group18.png",
+        "text": "some more info on Vizbi Conference",
+        "flex": 4,
+        "aspect": "1"
+    }
+]
