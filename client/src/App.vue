@@ -36,7 +36,7 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import EventList from './components/EventList.vue'
-const initialItems = require('./data/Events.json')
+const initialItems = require('../static/data/Events.json')
 
 export default {
   name: 'app',
