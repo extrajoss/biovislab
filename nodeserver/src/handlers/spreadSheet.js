@@ -50,7 +50,7 @@ const getSheetIndex = (worksheets, title) => {
 }
 
 const getSheetRows = async (sheetTitle) => {
-  const cacheFile = path.resolve(__dirname, `../../../client/src/data/${sheetTitle}.json`)
+  const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
   const doc = getDoc()
   const [cacheInfo, info] = await Promise.all([fs.stat(cacheFile), getInfo(await doc)])
   let cacheUpdate = Date.parse(cacheInfo.mtime)
@@ -63,7 +63,7 @@ const getSheetRows = async (sheetTitle) => {
 }
 
 const cardsFromRows = (sheetTitle, rows) => {
-  const cacheFile = path.resolve(__dirname, `../../../client/src/data/${sheetTitle}.json`)
+  const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
   let cards = []
   rows.forEach((row) => {
     const card = (({
@@ -98,7 +98,7 @@ const getCards = async ({
 }
 
 const listFromRows = (sheetTitle, rows) => {
-  const cacheFile = path.resolve(__dirname, `../../../client/src/data/${sheetTitle}.json`)
+  const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
   let items = []
   rows.forEach((row) => {
     const item = (({
