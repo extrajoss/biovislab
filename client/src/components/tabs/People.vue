@@ -10,7 +10,7 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-const people = require('../../data/People.json')
+const people = require('../../../static/data/People.json')
 
 export default {
   name: 'People',
