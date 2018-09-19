@@ -4,9 +4,22 @@
     <v-flex v-for="(card,index) in cards"
             v-bind="{ [`sm${card.flex} xs12 `]: true }"
             :key="card.title">
-      <v-card>
-        <v-carousel v-if="!card.isMessage&&hasMultiImages(card)"
-                    :cycle="mouseOver"
+      <v-card v-if="!card.isMessage&&!(hasMultiImages(card))">
+        <v-img :src="card.images"
+               :class='card.isSelected?"card selected":"card"'
+               :aspect-ratio="card.aspect"
+               :gradient="gradient"
+               @click.native="openMessage(index,card)">
+          <v-card-text class="white--text
+            text-xs-center
+            card-title
+            headline">
+            {{card.title}}
+          </v-card-text>
+        </v-img>
+      </v-card>
+      <v-card v-if="!card.isMessage&&hasMultiImages(card)">
+        <v-carousel :cycle="mouseOver"
                     :hide-delimiters="true">
           <v-carousel-item v-for="(image,i) in getImages(card)"
                            :key="i"
@@ -23,21 +36,23 @@
             </v-card-title>
           </v-carousel-item>
         </v-carousel>
-        <v-img v-if="!card.isMessage&&!(hasMultiImages(card))"
-               :src="card.images"
-               class="card"
-               :aspect-ratio="card.aspect"
-               :gradient="gradient"
-               @click.native="openMessage(index,card)">
-          <v-card-text class="white--text
-            text-xs-center
-            card-title
-            headline">
-            {{card.title}}
-          </v-card-text>
-        </v-img>
-        <v-card-text v-if="card.isMessage"
-                     v-html="card.text">
+      </v-card>
+      <v-card v-if="card.isMessage">
+        <v-layout row
+                  wrap>
+          <v-flex v-bind="{ [`xs${card.selectedflex} offset-sm${card.selectedflexOffset} offset-xs0`]: true }">
+            <div id="messagePointerHolder">
+              <div id="messagePointer"></div>
+            </div>
+          </v-flex>
+        </v-layout>
+        <v-card-title class="
+          text-xs-center
+          headline
+          ">
+          <p class="text-xs-center">{{card.title}}</p>
+        </v-card-title>
+        <v-card-text v-html="card.text">
         </v-card-text>
       </v-card>
     </v-flex>
@@ -48,6 +63,18 @@
 .card-title {
   position: absolute;
   bottom: 0;
+}
+#messagePointerHolder {
+  width: 30px;
+  margin: 0 auto;
+}
+#messagePointer {
+  border-bottom: 15px solid #fff;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  height: 0;
+  position: absolute;
+  top: -15px;
 }
 </style>
 
@@ -81,11 +108,12 @@ export default {
       return this.getImages(card).length > 1
     },
     getOverflowIndex (index) {
+      let overflowTotal = 0
       if (this.$vuetify.breakpoint.name === 'xs') {
-        return index + 1
+        return {messageIndex: index + 1, parentflex: 12, parentflexTotal: 0}
       }
       let cards = this.cards.filter((card) => { return !card.isMessage })
-      let overflowTotal = 0
+      let parentflex = cards[index].flex
       for (let i = 0; i < index; i++) {
         overflowTotal += cards[i].flex
         if (overflowTotal > 12) {
@@ -94,19 +122,20 @@ export default {
           overflowTotal = 0
         }
       }
+      let parentflexTotal = overflowTotal
       while (overflowTotal <= 12 && index < cards.length) {
         overflowTotal += cards[index].flex
         if (overflowTotal > 12) {
           if (cards[index].flex === 12) {
-            return index++
+            return {messageIndex: index++, parentflex, parentflexTotal}
           }
-          return index
+          return {messageIndex: index, parentflex, parentflexTotal}
         }
         index++
       }
-      return index
+      return {messageIndex: index, parentflex, parentflexTotal}
     },
-    addMessage (index, {title, text}) {
+    addMessage (index, {title, text, images}) {
       if (this.currentTitleIndex === index) {
         this.deleteMessage()
         return
@@ -115,13 +144,17 @@ export default {
         index--
       }
       this.deleteMessage()
-      let messageIndex = this.getOverflowIndex(index)
+      let {messageIndex, parentflex, parentflexTotal} = this.getOverflowIndex(index)
       this.currentMessageIndex = messageIndex
       this.currentTitleIndex = index
+      this.cards[this.currentTitleIndex].isSelected = true
       this.cards.splice(messageIndex, 0, {
         isMessage: true,
         title: `More info on ${title}`,
         text: text,
+        images: images,
+        selectedflex: parentflex,
+        selectedflexOffset: parentflexTotal,
         flex: 12
       })
     },
@@ -129,6 +162,9 @@ export default {
       this.cards = this.cards.filter((card) => {
         return !card.isMessage
       })
+      if (this.currentTitleIndex >= 0 && this.cards[this.currentTitleIndex]) {
+        delete this.cards[this.currentTitleIndex].isSelected
+      }
       this.currentMessageIndex = false
       this.currentTitleIndex = false
     }
