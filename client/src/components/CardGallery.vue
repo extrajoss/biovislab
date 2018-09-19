@@ -176,8 +176,11 @@ export default {
     }
   },
   async mounted () {
-    await this.getCards(this.title)
     this.openMessage(0, this.cards[0])
+    let cards = await this.getCards(this.title)
+    if (cards) {
+      this.cards = cards
+    }
   }
 }
 </script>
