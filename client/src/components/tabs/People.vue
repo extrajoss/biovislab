@@ -1,5 +1,5 @@
 <template>
-  <cardGallery v-bind:initialCards="cards"
+  <cardGallery v-bind:initialCards="people"
                v-bind:title="'People'"></cardGallery>
 </template>
 
@@ -10,20 +10,18 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-import people from '../../../static/data/People.json'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'People',
   components: {
     'cardGallery': cardGallery
   },
-  data () {
-    return {
-      cards: people
-    }
+  computed: {
+    ...mapGetters(['people'])
   },
   mounted () {
-    console.log(this.cards)
+    console.log(this.people)
   }
 }
 </script>

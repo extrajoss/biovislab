@@ -1,5 +1,5 @@
 <template>
-  <cardGallery v-bind:initialCards="cards"
+  <cardGallery v-bind:initialCards="publications"
                v-bind:title="'Publications'"></cardGallery>
 </template>
 
@@ -10,20 +10,18 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-import publications from '../../../static/data/Publications.json'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Publications',
   components: {
     'cardGallery': cardGallery
   },
-  data () {
-    return {
-      cards: publications
-    }
+  computed: {
+    ...mapGetters(['publications'])
   },
   mounted () {
-    console.log(this.cards)
+    console.log(this.publications)
   }
 }
 </script>

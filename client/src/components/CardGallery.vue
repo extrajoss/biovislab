@@ -81,7 +81,7 @@
 </style>
 
 <script>
-import rpc from '../modules/rpc.js'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'cardGallery',
@@ -96,6 +96,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getCards']),
     openMessage (index, card) {
       if (card.isMessage) {
         this.deleteMessage()
@@ -175,10 +176,7 @@ export default {
     }
   },
   async mounted () {
-    let response = await rpc.rpcRun('publicGetCards', {'sheetTitle': this.title})
-    if (response.result) {
-      this.cards = response.result
-    }
+    await this.getCards(this.title)
     this.openMessage(0, this.cards[0])
   }
 }
