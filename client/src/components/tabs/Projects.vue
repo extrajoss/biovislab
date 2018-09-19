@@ -8,7 +8,7 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-const projects = require('../../../static/data/Projects.json')
+import projects from '../../../static/data/Projects.json'
 
 export default {
   name: 'Projects',

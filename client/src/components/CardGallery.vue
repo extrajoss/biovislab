@@ -4,8 +4,8 @@
     <v-flex v-for="(card,index) in cards"
             v-bind="{ [`sm${card.flex} xs12 `]: true }"
             :key="card.title">
-      <v-card v-if="!card.isMessage&&!(hasMultiImages(card))">
-        <v-img :src="card.images"
+      <v-card v-if="!card.isMessage">
+        <v-img :src="getImage(card)"
                :class='card.isSelected?"card selected":"card"'
                :aspect-ratio="card.aspect"
                :gradient="gradient"
@@ -18,25 +18,6 @@
           </v-card-text>
         </v-img>
       </v-card>
-      <v-card v-if="!card.isMessage&&hasMultiImages(card)">
-        <v-carousel :cycle="mouseOver"
-                    :hide-delimiters="true">
-          <v-carousel-item v-for="(image,i) in getImages(card)"
-                           :key="i"
-                           :src="image"
-                           :gradient="gradient"
-                           v-on:mouseover="mouseOver=true"
-                           v-on:mouseout="mouseOver=false"
-                           @click.native="openMessage(index,card)">
-            <v-card-title class="white--text
-              text-xs-center
-              headline
-              ">
-              <p class="text-xs-center">{{card.title}}</p>
-            </v-card-title>
-          </v-carousel-item>
-        </v-carousel>
-      </v-card>
       <v-card v-if="card.isMessage">
         <v-layout row
                   wrap>
@@ -46,14 +27,35 @@
             </div>
           </v-flex>
         </v-layout>
-        <v-card-title class="
+        <v-container>
+          <v-layout>
+            <v-flex v-bind="{ [`sm7 xs12 `]: true }">
+              <v-carousel v-if="hasMultiImages(card)">
+                <v-carousel-item v-for="(image,i) in getImages(card)"
+                                 :key="i"
+                                 :src="`http://odonoghuelab.org/${title}/images/${image}`"
+                                 @click.native="openMessage(index,card)">
+                </v-carousel-item>
+              </v-carousel>
+              <v-img v-if="!hasMultiImages(card)"
+                     :src="`http://odonoghuelab.org/${title}/images/${card.images}`"
+                     :aspect-ratio="card.aspect">
+              </v-img>
+            </v-flex>
+            <v-flex v-bind="{ [`sm5 xs12 `]: true }">
+              <v-container>
+                <v-card-title class="
           text-xs-center
           headline
           ">
-          <p class="text-xs-center">{{card.title}}</p>
-        </v-card-title>
-        <v-card-text v-html="card.text">
-        </v-card-text>
+                  <p class="text-xs-center">{{card.title}}</p>
+                </v-card-title>
+                <v-card-text v-html="card.text">
+                </v-card-text>
+              </v-container>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-card>
     </v-flex>
   </v-layout>
@@ -106,6 +108,9 @@ export default {
     },
     hasMultiImages (card) {
       return this.getImages(card).length > 1
+    },
+    getImage (card) {
+      return this.hasMultiImages(card) ? `http://odonoghuelab.org/${this.title}/images/${this.getImages(card)[0]}` : `http://odonoghuelab.org/${this.title}/images/${card.images}`
     },
     getOverflowIndex (index) {
       let overflowTotal = 0
@@ -174,6 +179,7 @@ export default {
     if (response.result) {
       this.cards = response.result
     }
+    this.openMessage(0, this.cards[0])
   }
 }
 </script>

@@ -10,7 +10,7 @@
 <script>
 
 import cardGallery from '../CardGallery.vue'
-const publications = require('../../../static/data/Publications.json')
+import publications from '../../../static/data/Publications.json'
 
 export default {
   name: 'Publications',
