@@ -180,6 +180,8 @@ export default {
     let cards = await this.getCards(this.title)
     if (cards) {
       this.cards = cards
+      this.currentMessageIndex = false
+      this.currentTitleIndex = false
       this.openMessage(0, this.cards[0])
     }
   }
