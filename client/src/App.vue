@@ -2,7 +2,8 @@
   <div id='app'>
     <v-app light>
       <v-container fluid
-                   grid-list-xs>
+                   grid-list-xs
+                   base>
         <v-layout row>
           <navbar></navbar>
         </v-layout>
@@ -29,8 +30,23 @@
 
 <style>
 @import "vuetify/dist/vuetify.min.css";
-@import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic";
+@import "http://fonts.googleapis.com/css?family=Roboto:300,
+  400,
+  500,
+  700,
+  400italic";
 @import "http://fonts.googleapis.com/icon?family=Material+Icons";
+
+#app {
+  --theme-primary: #eeeeee;
+  --theme-secondary: #fff;
+  --theme-base: #424242;
+  --theme-accent: #82b1ff;
+  --theme-error: #ff5252;
+  --theme-info: #2196f3;
+  --theme-success: #4caf50;
+  --theme-warning: #ffc107;
+}
 </style>
 
 <script>
@@ -45,6 +61,11 @@ export default {
     return {
       initialItems: initialItems
     }
+  },
+  mounted () {
+    Object.keys(this.$vuetify.theme).forEach((themeItem) => {
+      this.$el.querySelector('#app').style.setProperty(`--theme-${themeItem}`, this.$vuetify.theme[themeItem])
+    })
   }
 }
 </script>

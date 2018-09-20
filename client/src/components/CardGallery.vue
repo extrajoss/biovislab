@@ -4,7 +4,7 @@
             ref="cardGallery">
     <v-flex v-for="(card,index) in cards"
             v-bind="{ [`sm${card.flex} xs12 `]: true }"
-            :key="card.title">
+            :key="index">
       <v-card v-if="!card.isMessage">
         <v-img :src="getImage(card)"
                :class='card.isSelected?"card selected":"card"'
@@ -14,7 +14,7 @@
           <v-card-text class="white--text
             text-xs-center
             card-title
-            headline">
+            title">
             {{card.title}}
           </v-card-text>
         </v-img>
@@ -33,7 +33,8 @@
           </v-flex>
         </v-layout>
         <v-container>
-          <v-layout>
+          <v-layout row
+                    wrap>
             <v-flex v-bind="{ [`sm7 xs12 `]: true }">
               <v-carousel v-if="hasMultiImages(card)">
                 <v-carousel-item v-for="(image,i) in getImages(card)"
@@ -53,14 +54,33 @@
           text-xs-center
           headline
           ">
-                  <p class="text-xs-center">{{card.title}}</p>
+                  {{card.title}}
                 </v-card-title>
                 <v-card-text v-html="card.text">
                 </v-card-text>
               </v-container>
             </v-flex>
+
           </v-layout>
         </v-container>
+        <div class="previousCard">
+          <v-btn flat
+                 icon
+                 v-if="currentTitleIndex>0"
+                 color="primary">
+            <v-icon dark
+                    @click.native="previousMessageCard()">arrow_left</v-icon>
+          </v-btn>
+        </div>
+        <div class="nextCard">
+          <v-btn flat
+                 icon
+                 v-if="currentTitleIndex<(cards.length-2)"
+                 color="primary">
+            <v-icon dark
+                    @click.native="nextMessageCard()">arrow_right</v-icon>
+          </v-btn>
+        </div>
       </v-card>
     </v-flex>
   </v-layout>
@@ -71,12 +91,24 @@
   position: absolute;
   bottom: 0;
 }
+.previousCard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: auto 0;
+}
+.nextCard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: auto 0;
+}
 #messagePointerHolder {
   width: 30px;
   margin: 0 auto;
 }
 #messagePointer {
-  border-bottom: 15px solid var(--message-background);
+  border-bottom: 15px solid var(--theme-secondary);
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   height: 0;
@@ -135,14 +167,8 @@ export default {
     getOverflowIndex ({selectedCardIndex, parentFlexTotal, cards}) {
       let i = selectedCardIndex
       let overflowTotal = parentFlexTotal
-      while (overflowTotal <= 12 && i < cards.length) {
+      while (overflowTotal < 12 && i < cards.length) {
         overflowTotal += cards[i].flex
-        if (overflowTotal > 12) {
-          if (cards[i].flex === 12) {
-            return i + 1
-          }
-          return i
-        }
         i++
       }
       return i
@@ -156,6 +182,24 @@ export default {
       let parentFlexTotal = this.getParentFlexTotal({cards, selectedCardIndex})
       let overflowIndex = this.getOverflowIndex({selectedCardIndex, parentFlexTotal, cards})
       return {messageIndex: overflowIndex, parentFlex, parentFlexTotal}
+    },
+    previousMessageCard () {
+      if (this.currentTitleIndex > 0) {
+        let newIndex = this.currentTitleIndex - 1
+        if (newIndex === this.currentMessageIndex) {
+          newIndex = newIndex - 1
+        }
+        this.toggleMessageCard(newIndex)
+      }
+    },
+    nextMessageCard () {
+      if (this.currentTitleIndex < this.cards.length - 1) {
+        let newIndex = this.currentTitleIndex + 1
+        if (newIndex === this.currentMessageIndex) {
+          newIndex = newIndex + 1
+        }
+        this.toggleMessageCard(newIndex)
+      }
     },
     toggleMessageCard (selectedCardIndex) {
       let {isMessage} = this.cards[selectedCardIndex]
@@ -181,7 +225,7 @@ export default {
       this.currentMessageIndex = messageIndex
       this.cards.splice(messageIndex, 0, {
         isMessage: true,
-        title: `More info on ${title}`,
+        title: title,
         text: text,
         images: images,
         selectedflex: parentFlex,
@@ -201,7 +245,6 @@ export default {
     }
   },
   async mounted () {
-    this.$refs['cardGallery'].style.setProperty('--message-background', this.$vuetify.theme.secondary)
     this.toggleMessageCard(0)
     let cards = await this.getCards(this.title)
     if (cards) {

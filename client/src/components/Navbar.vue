@@ -10,7 +10,8 @@
       {{ title }}
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-tabs color="primary">
+    <v-tabs color="primary"
+            slider-color="accent">
       <v-tab id="tab-home"
              to="/"
              router>Home
