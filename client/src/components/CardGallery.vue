@@ -1,6 +1,7 @@
 <template>
   <v-layout row
-            wrap>
+            wrap
+            ref="cardGallery">
     <v-flex v-for="(card,index) in cards"
             v-bind="{ [`sm${card.flex} xs12 `]: true }"
             :key="card.title">
@@ -9,7 +10,7 @@
                :class='card.isSelected?"card selected":"card"'
                :aspect-ratio="card.aspect"
                :gradient="gradient"
-               @click.native="openMessage(index,card)">
+               @click.native="toggleMessageCard(index)">
           <v-card-text class="white--text
             text-xs-center
             card-title
@@ -18,11 +19,15 @@
           </v-card-text>
         </v-img>
       </v-card>
-      <v-card v-if="card.isMessage">
+      <v-card v-if="card.isMessage"
+              id="message"
+              class="secondary"
+              dark>
         <v-layout row
                   wrap>
           <v-flex v-bind="{ [`xs${card.selectedflex} offset-sm${card.selectedflexOffset} offset-xs0`]: true }">
             <div id="messagePointerHolder">
+              <div id="messagePointerBorder"></div>
               <div id="messagePointer"></div>
             </div>
           </v-flex>
@@ -34,7 +39,7 @@
                 <v-carousel-item v-for="(image,i) in getImages(card)"
                                  :key="i"
                                  :src="`http://odonoghuelab.org/${title}/images/${image}`"
-                                 @click.native="openMessage(index,card)">
+                                 @click.native="toggleMessageCard(index)">
                 </v-carousel-item>
               </v-carousel>
               <v-img v-if="!hasMultiImages(card)"
@@ -71,12 +76,21 @@
   margin: 0 auto;
 }
 #messagePointer {
-  border-bottom: 15px solid #fff;
+  border-bottom: 15px solid var(--message-background);
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   height: 0;
   position: absolute;
   top: -15px;
+}
+#messagePointerBorder {
+  border-bottom: 16px solid white;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  height: 0;
+  position: absolute;
+  top: -16px;
+  margin: 0px -1px;
 }
 </style>
 
@@ -97,13 +111,6 @@ export default {
   },
   methods: {
     ...mapActions(['getCards']),
-    openMessage (index, card) {
-      if (card.isMessage) {
-        this.deleteMessage()
-      } else {
-        this.addMessage(index, card)
-      }
-    },
     getImages (card) {
       return card.images.split(',')
     },
@@ -113,58 +120,76 @@ export default {
     getImage (card) {
       return this.hasMultiImages(card) ? `http://odonoghuelab.org/${this.title}/images/${this.getImages(card)[0]}` : `http://odonoghuelab.org/${this.title}/images/${card.images}`
     },
-    getOverflowIndex (index) {
-      let overflowTotal = 0
-      if (this.$vuetify.breakpoint.name === 'xs') {
-        return {messageIndex: index + 1, parentflex: 12, parentflexTotal: 0}
+    getParentFlexTotal ({cards, selectedCardIndex}) {
+      let parentFlexTotal = 0
+      for (let i = 0; i < selectedCardIndex; i++) {
+        parentFlexTotal += cards[i].flex
+        if (parentFlexTotal > 12) {
+          parentFlexTotal = cards[i].flex
+        } else if (parentFlexTotal === 12) {
+          parentFlexTotal = 0
+        }
       }
-      let cards = this.cards.filter((card) => { return !card.isMessage })
-      let parentflex = cards[index].flex
-      for (let i = 0; i < index; i++) {
+      return parentFlexTotal
+    },
+    getOverflowIndex ({selectedCardIndex, parentFlexTotal, cards}) {
+      let i = selectedCardIndex
+      let overflowTotal = parentFlexTotal
+      while (overflowTotal <= 12 && i < cards.length) {
         overflowTotal += cards[i].flex
         if (overflowTotal > 12) {
-          overflowTotal = cards[i].flex
-        } else if (overflowTotal === 12) {
-          overflowTotal = 0
-        }
-      }
-      let parentflexTotal = overflowTotal
-      while (overflowTotal <= 12 && index < cards.length) {
-        overflowTotal += cards[index].flex
-        if (overflowTotal > 12) {
-          if (cards[index].flex === 12) {
-            return {messageIndex: index++, parentflex, parentflexTotal}
+          if (cards[i].flex === 12) {
+            return i + 1
           }
-          return {messageIndex: index, parentflex, parentflexTotal}
+          return i
         }
-        index++
+        i++
       }
-      return {messageIndex: index, parentflex, parentflexTotal}
+      return i
     },
-    addMessage (index, {title, text, images}) {
-      if (this.currentTitleIndex === index) {
-        this.deleteMessage()
+    getMessageCardProperties (selectedCardIndex) {
+      if (this.$vuetify.breakpoint.name === 'xs') {
+        return {messageIndex: selectedCardIndex + 1, parentFlex: 12, parentFlexTotal: 0}
+      }
+      let cards = this.cards.filter((card) => { return !card.isMessage })
+      let parentFlex = cards[selectedCardIndex].flex
+      let parentFlexTotal = this.getParentFlexTotal({cards, selectedCardIndex})
+      let overflowIndex = this.getOverflowIndex({selectedCardIndex, parentFlexTotal, cards})
+      return {messageIndex: overflowIndex, parentFlex, parentFlexTotal}
+    },
+    toggleMessageCard (selectedCardIndex) {
+      let {isMessage} = this.cards[selectedCardIndex]
+      if (isMessage) {
+        this.deleteMessageCard()
         return
       }
-      if (this.currentMessageIndex && this.currentMessageIndex < index) {
-        index--
+      if (this.currentTitleIndex === selectedCardIndex) {
+        this.deleteMessageCard()
+        return
       }
-      this.deleteMessage()
-      let {messageIndex, parentflex, parentflexTotal} = this.getOverflowIndex(index)
-      this.currentMessageIndex = messageIndex
-      this.currentTitleIndex = index
+      if (this.currentMessageIndex && this.currentMessageIndex < selectedCardIndex) {
+        selectedCardIndex--
+      }
+      this.deleteMessageCard()
+      this.currentTitleIndex = selectedCardIndex
       this.cards[this.currentTitleIndex].isSelected = true
+      this.addMessageCard(selectedCardIndex)
+    },
+    addMessageCard (selectedCardIndex) {
+      let { title, text, images } = this.cards[selectedCardIndex]
+      let { messageIndex, parentFlex, parentFlexTotal } = this.getMessageCardProperties(selectedCardIndex)
+      this.currentMessageIndex = messageIndex
       this.cards.splice(messageIndex, 0, {
         isMessage: true,
         title: `More info on ${title}`,
         text: text,
         images: images,
-        selectedflex: parentflex,
-        selectedflexOffset: parentflexTotal,
+        selectedflex: parentFlex,
+        selectedflexOffset: parentFlexTotal,
         flex: 12
       })
     },
-    deleteMessage () {
+    deleteMessageCard () {
       this.cards = this.cards.filter((card) => {
         return !card.isMessage
       })
@@ -176,13 +201,14 @@ export default {
     }
   },
   async mounted () {
-    this.openMessage(0, this.cards[0])
+    this.$refs['cardGallery'].style.setProperty('--message-background', this.$vuetify.theme.secondary)
+    this.toggleMessageCard(0)
     let cards = await this.getCards(this.title)
     if (cards) {
       this.cards = cards
       this.currentMessageIndex = false
       this.currentTitleIndex = false
-      this.openMessage(0, this.cards[0])
+      this.toggleMessageCard(0)
     }
   }
 }

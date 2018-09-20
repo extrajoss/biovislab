@@ -1,5 +1,5 @@
 <template>
-  <cardGallery v-bind:initialCards="people"
+  <cardGallery v-bind:initialCards="People"
                v-bind:title="'People'"></cardGallery>
 </template>
 
@@ -18,10 +18,7 @@ export default {
     'cardGallery': cardGallery
   },
   computed: {
-    ...mapGetters(['people'])
-  },
-  mounted () {
-    console.log(this.people)
+    ...mapGetters(['People'])
   }
 }
 </script>

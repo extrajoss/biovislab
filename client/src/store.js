@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cardGalleryCache from './store/cardGalleryCache'
+import cardGallery from './store/cardGallery'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    cardGalleryCache: cardGalleryCache
+    cardGallery: cardGallery
   },
   state: {
     user: {

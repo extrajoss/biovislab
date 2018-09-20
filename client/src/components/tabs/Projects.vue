@@ -1,5 +1,5 @@
 <template>
-  <cardGallery v-bind:initialCards="projects"
+  <cardGallery v-bind:initialCards="Projects"
                v-bind:title="'Projects'"></cardGallery>
 </template>
 <style scoped>
@@ -16,7 +16,7 @@ export default {
     'cardGallery': cardGallery
   },
   computed: {
-    ...mapGetters(['projects'])
+    ...mapGetters(['Projects'])
   }
 }
 </script>

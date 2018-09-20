@@ -76,10 +76,9 @@ const cardsFromRows = (sheetTitle, rows) => {
       title,
       images,
       text,
-      flex,
+      flex: parseInt(flex),
       aspect
     }))(row)
-    card.flex = parseInt(card.flex)
     cards.push(card)
   })
   let json = JSON.stringify(cards, null, 4)
