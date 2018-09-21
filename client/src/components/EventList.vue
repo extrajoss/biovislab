@@ -35,12 +35,9 @@ export default {
     }
   },
   async mounted () {
-    console.log(this.initialItems, this.items)
     let response = await rpc.rpcRun('publicGetList', {'sheetTitle': 'Events'})
-    console.log('response.result', response.result)
     if (response.result) {
       this.items = response.result
-      console.log('items', this.items)
     }
   }
 }

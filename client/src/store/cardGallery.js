@@ -1,18 +1,16 @@
 import rpc from '../modules/rpc'
-import Publications from '../../static/data/Publications.json'
-import Projects from '../../static/data/Projects.json'
-import People from '../../static/data/People.json'
 
 const cardGallery = {
   state: {
-    Publications,
-    People,
-    Projects
+    Publications: false,
+    People: false,
+    Projects: false
   },
   getters: {
     Publications: state => state.Publications,
     People: state => state.People,
-    Projects: state => state.Projects
+    Projects: state => state.Projects,
+    Cards: state => title => state[title]
   },
   mutations: {
     Set_Publications: (state, Publications) => {
@@ -23,6 +21,12 @@ const cardGallery = {
     },
     Set_People: (state, People) => {
       state.People = People
+    },
+    Set_Cards: (state, {
+      Cards,
+      Title
+    }) => {
+      state[Title] = Cards
     }
   },
   actions: {
@@ -34,6 +38,25 @@ const cardGallery = {
         'sheetTitle': title
       })
       let cards = response.result
+      if (cards) {
+        commit(`Set_${title}`, cards)
+        return cards
+      }
+      return false
+    },
+    async getCache ({
+      commit,
+      state
+    }, title) {
+      if (state[title]) {
+        console.log(`state for ${title} already set`, state[title])
+        return false
+      }
+      let response = await rpc.rpcRun('publicGetCardsCache', {
+        'sheetTitle': title
+      })
+      let cards = response.result
+      console.log(`state for ${title} retrieved`, cards)
       if (cards) {
         commit(`Set_${title}`, cards)
         return cards

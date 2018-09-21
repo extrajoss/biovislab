@@ -127,22 +127,27 @@
 </style>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'cardGallery',
-  props: ['initialCards', 'title'],
+  props: ['title'],
   data () {
     return {
-      cards: this.initialCards,
       mouseOver: false,
       currentMessageIndex: false,
       currentTitleIndex: false,
       gradient: `to top,${this.$vuetify.theme.secondary}A0  40px,${this.$vuetify.theme.secondary}00 80px, ${this.$vuetify.theme.secondary}00`
     }
   },
+  computed: {
+    cards () {
+      return this.$store.getters.Cards(this.title)
+    }
+  },
   methods: {
-    ...mapActions(['getCards']),
+    ...mapActions(['getCards', 'getCache']),
+    ...mapMutations(['Set_Cards']),
     getImages (card) {
       return card.images.split(',')
     },
@@ -202,6 +207,9 @@ export default {
       }
     },
     toggleMessageCard (selectedCardIndex) {
+      if (!this.cards[selectedCardIndex]) {
+        return
+      }
       let {isMessage} = this.cards[selectedCardIndex]
       if (isMessage) {
         this.deleteMessageCard()
@@ -234,9 +242,10 @@ export default {
       })
     },
     deleteMessageCard () {
-      this.cards = this.cards.filter((card) => {
+      let cardsOnly = this.cards.filter((card) => {
         return !card.isMessage
       })
+      this.Set_Cards({Cards: cardsOnly, Title: this.title})
       if (this.currentTitleIndex >= 0 && this.cards[this.currentTitleIndex]) {
         delete this.cards[this.currentTitleIndex].isSelected
       }
@@ -244,11 +253,18 @@ export default {
       this.currentTitleIndex = false
     }
   },
+  async beforeMount () {
+    if (!this.cards) {
+      await this.getCache(this.title)
+      this.toggleMessageCard(0)
+    }
+  },
   async mounted () {
-    this.toggleMessageCard(0)
-    let cards = await this.getCards(this.title)
-    if (cards) {
-      this.cards = cards
+    if (!this.currentMessageIndex) {
+      this.toggleMessageCard(0)
+    }
+    await this.getCards(this.title)
+    if (this.cards) {
       this.currentMessageIndex = false
       this.currentTitleIndex = false
       this.toggleMessageCard(0)

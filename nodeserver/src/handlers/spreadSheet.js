@@ -116,6 +116,14 @@ const listFromRows = (sheetTitle, rows) => {
   return items
 }
 
+const getCardsCache = async ({
+  sheetTitle
+}) => {
+  const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
+  const cacheInfo = await fs.readFile(cacheFile)
+  return JSON.parse(cacheInfo)
+}
+
 const getList = async ({
   sheetTitle
 }) => {
@@ -128,5 +136,6 @@ const getList = async ({
 
 module.exports = {
   'publicGetCards': getCards,
+  'publicGetCardsCache': getCardsCache,
   'publicGetList': getList
 }
