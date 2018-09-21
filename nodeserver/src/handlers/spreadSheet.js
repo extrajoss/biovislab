@@ -115,10 +115,21 @@ const listFromRows = (sheetTitle, rows) => {
   fs.writeFile(cacheFile, json, 'utf8', console.log(`${sheetTitle} Cache Updated`))
   return items
 }
-
+const cacheUpdated = async (sheetTitle) => {
+  const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
+  const buildFile = path.resolve(__dirname, `../../../client/dist/index.html`)
+  const [cacheInfo, buildInfo] = await Promise.all([fs.stat(cacheFile), fs.stat(buildFile)])
+  let cacheUpdate = Date.parse(cacheInfo.mtime)
+  let buildUpdate = Date.parse(buildInfo.mtime)
+  return (cacheUpdate > (buildUpdate + 1000))
+}
 const getCardsCache = async ({
   sheetTitle
 }) => {
+  let updated = await cacheUpdated(sheetTitle)
+  if (!updated) {
+    return false
+  }
   const cacheFile = path.resolve(__dirname, `../../../client/static/data/${sheetTitle}.json`)
   const cacheInfo = await fs.readFile(cacheFile)
   return JSON.parse(cacheInfo)

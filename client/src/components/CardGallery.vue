@@ -254,8 +254,8 @@ export default {
     }
   },
   async beforeMount () {
-    if (!this.cards) {
-      await this.getCache(this.title)
+    let cacheLoaded = await this.getCache(this.title)
+    if (cacheLoaded) {
       this.toggleMessageCard(0)
     }
   },
