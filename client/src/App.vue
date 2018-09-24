@@ -12,7 +12,9 @@
                   wrap>
           <v-flex xs12
                   sm10>
-            <router-view></router-view>
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
           </v-flex>
           <v-flex xs12
                   sm2>
@@ -30,7 +32,11 @@
 
 <style>
 @import "vuetify/dist/vuetify.min.css";
-@import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic";
+@import "http://fonts.googleapis.com/css?family=Roboto:300,
+  400,
+  500,
+  700,
+  400italic";
 @import "http://fonts.googleapis.com/icon?family=Material+Icons";
 
 #app {
