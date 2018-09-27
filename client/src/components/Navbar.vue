@@ -16,17 +16,11 @@
              to="/"
              router>Home
       </v-tab>
-      <v-tab id="tab-projects"
-             to="/projects"
-             router>Projects
-      </v-tab>
-      <v-tab id="tab-publications"
-             to="/publications"
-             router>Publications
-      </v-tab>
-      <v-tab id="tab-people"
-             to="/people"
-             router>People
+      <v-tab v-for="tabPageName in tabPageNames"
+             :key="tabPageName"
+             :id="`tab-${tabPageName}`"
+             :to="`/${tabPageName}`"
+             router>{{tabPageName}}
       </v-tab>
       <v-tab v-show="user.authenticated"
              id="tab-private"
@@ -74,7 +68,8 @@ export default {
   data () {
     return {
       title: config.title,
-      isUser: config.isUser
+      isUser: config.isUser,
+      tabPageNames: config.tabPageNames
     }
   },
   computed: {

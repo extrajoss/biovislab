@@ -1,5 +1,5 @@
 <template>
-  <cardGallery v-bind:title="'Projects'"></cardGallery>
+  <cardGallery v-bind:title="title"></cardGallery>
 </template>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
@@ -11,7 +11,8 @@
 import cardGallery from '../CardGallery.vue'
 
 export default {
-  name: 'Projects',
+  name: 'tabPage',
+  props: ['title'],
   components: {
     'cardGallery': cardGallery
   }

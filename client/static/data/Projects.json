@@ -2,78 +2,78 @@
     {
         "title": "Centre",
         "images": "centre.png",
-        "text": "some more info on Centre",
-        "flex": 4,
-        "aspect": "2.4"
+        "text": "some more info on Centre that has been updated",
+        "flex": 6,
+        "aspect": 2.4
     },
     {
         "title": "The Protein Structure Universe",
         "images": "Aquaria_1.png,Aquaria_2.png,Aquaria_3.png,Aquaria_4.png,Aquaria_5.png,Aquaria_6.png,Aquaria_7.png",
         "text": "Aquaria is a new, free web resource for biologists that simplifies the process of gaining insight from protein structures. For any protein sequence, Aquaria shows all related structures; with one click the sequence can be mapped onto the structure; one more click and the structure is colored by features, e.g., domains, SNPs, or posttranslational modification sites. See our article in Nature Methods.",
+        "flex": 3,
+        "aspect": 1.2
+    },
+    {
+        "title": "The 'Dark Proteome' of",
+        "images": "darkProteome.png",
+        "text": "The Dark Proteome is a joint development between CSIRO and the Garvan Institute. It leverages the database underlying Aquaria to create a new database that maps all regions in proteins where structural information is completely lacking. In Nov 2015, we published the first paper that systematically mapped these 'dark' regions in the journal PNAS. This work showed that most of the dark proteome cannot be readily explained, and it shows unexpected features that provides fundamental new insights into the biological functions of many proteins. This work has received considerable attention and feedback from life scientists worldwide. Our team is developing a web-resource that will use interactive data visualisation together with both graphic and user-interface design to make data about the dark proteome easy to access and use. ",
+        "flex": 3,
+        "aspect": 1.2
+    },
+    {
+        "title": "Noble Gas Interactions with Proteins",
+        "images": "group18.png",
+        "text": "As outlined in the review ”The diverse biological properties of the chemically inert noble gases” (Winkler et al., 2016) there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation of this data is to provide a starting point for such exploration.\n\nAs per ”Decoding the rich biological properties of noble gases: how well can we predict noble gas binding to diverse proteins?” (Winkler et al., 2018) the dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas ( He, Ne, Ar, Kr, Xe ) at all grid locations (in 0.375 Å steps) in all ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same proteins exist.\n\nBefore the grid calculations, the proteins were carefully prepared using an automatic script to remove water and other solvents, small molecule ligands such as drugs, metal and small inorganic ions except those important for protein function, and small molecules except cofactors etc. essential for function. Given the very large number of proteins studied, it was not practical to hand curate each protein. Where structures included small molecular effectors e.g. enzyme substrates, products, inhibitors, or receptor agonists or antagonists, the proximity of the noble gas binding to the small molecule ligand binding site is available.\n\nThe probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related to the Boltzmann distribution. Interactions with larger Nat values and smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with small energies that are comparable to thermal energies will not remain bound for long enough to affect the function of the protein.\n\nFor ease of navigation, the dataset may be searched via \"Search\" field at the top of the view tab. The search field looks for partial matching text entries for PDB-Ids, Protein Type and/or Description( eg. \"oxygen transport\") You may also search for a range of number of atoms (eg. \"1000:2000\") or a range of minimum binding energies (eg \"-1.5:-2.0\"). These searches may be combined as a single separated query (eg. \"oxygen transport 1000:2000 -1.6:-2.0\"). Initially only a subset of all available grid positions will be displayed determined by a maximum binding energy level set on a slider. This may be adjusted in the range from -0.3 to -2.0 kCal/Mol. You may also adjust the elements you are interested to see in the visualisation from the \"Element\" drop down selection. You may also filter the elements displayed by clicking the appropriate button ( He, Ne, Ar, Kr, Xe )\n\nNote that not all PDBs have been mapped. Multiple structures of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or RNA) may be missing, and a very small percentage of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric species but mapped as the multimer.\n\nThe data is displayed using the 3D protein viewer Jolecule\n\nJolecule optimizes a simple but rich interface that focuses on stereochemistry. The focus is on Richardson ribbons that join with sidechains correctly. Ligands are rendered as balls-and-sticks to allow the stereochemistry to be seen clearly, as well as arrows that are used to indicate directionality on both protein and DNA chains.",
         "flex": 2,
-        "aspect": "1.2"
+        "aspect": 0.8
     },
     {
         "title": "Cancer-causing Mutations",
         "images": "cancer.png",
         "text": "some more info on Cancer",
         "flex": 2,
-        "aspect": "1.2"
-    },
-    {
-        "title": "The 'Dark Proteome' of",
-        "images": "darkProteome.png",
-        "text": "some more info on Dark Proteome",
-        "flex": 2,
-        "aspect": "1.2"
-    },
-    {
-        "title": "Noble gas-protein interactions",
-        "images": "group18.png",
-        "text": "As outlined in the review ”The diverse biological properties of the chemically inert noble gases” (Winkler et al., 2016) there is a need to explore the possible interactions between the noble gases and proteins in order to provide viable candidates for clinical study. The drive behind the generation of this data is to provide a starting point for such exploration.\n\nAs per ”Decoding the rich biological properties of noble gases: how well can we predict noble gas binding to diverse proteins?” (Winkler et al., 2018) the dataset accessible on this site was created using AutoGrid4 to systematically map the energy of five noble gas ( He, Ne, Ar, Kr, Xe ) at all grid locations (in 0.375 Å steps) in all ~60,000 unique PDB structures filtered by 100% sequence similarity. This retains the highest resolution structure where multiple structures of the same proteins exist.\n\nBefore the grid calculations, the proteins were carefully prepared using an automatic script to remove water and other solvents, small molecule ligands such as drugs, metal and small inorganic ions except those important for protein function, and small molecules except cofactors etc. essential for function. Given the very large number of proteins studied, it was not practical to hand curate each protein. Where structures included small molecular effectors e.g. enzyme substrates, products, inhibitors, or receptor agonists or antagonists, the proximity of the noble gas binding to the small molecule ligand binding site is available.\n\nThe probability of productive binding relative to thermal energy is quantified by Natural information units (Nats) that are related to the Boltzmann distribution. Interactions with larger Nat values and smaller ligand distances are more likely to be interesting pharmacologically. Clearly, noble gases that bind with small energies that are comparable to thermal energies will not remain bound for long enough to affect the function of the protein.\n\nFor ease of navigation, the dataset may be searched via \"Search\" field at the top of the view tab. The search field looks for partial matching text entries for PDB-Ids, Protein Type and/or Description( eg. \"oxygen transport\") You may also search for a range of number of atoms (eg. \"1000:2000\") or a range of minimum binding energies (eg \"-1.5:-2.0\"). These searches may be combined as a single separated query (eg. \"oxygen transport 1000:2000 -1.6:-2.0\"). Initially only a subset of all available grid positions will be displayed determined by a maximum binding energy level set on a slider. This may be adjusted in the range from -0.3 to -2.0 kCal/Mol. You may also adjust the elements you are interested to see in the visualisation from the \"Element\" drop down selection. You may also filter the elements displayed by clicking the appropriate button ( He, Ne, Ar, Kr, Xe )\n\nNote that not all PDBs have been mapped. Multiple structures of the same protein are represented by the structure with the best resolution, some proteins with unusual functions (e.g. binding to DNA or RNA) may be missing, and a very small percentage of proteins were not processed correctly by the automatic protein preparation scripts. Protein multimers were not separated into the monomeric species but mapped as the multimer.\n\nThe data is displayed using the 3D protein viewer Jolecule\n\nJolecule optimizes a simple but rich interface that focuses on stereochemistry. The focus is on Richardson ribbons that join with sidechains correctly. Ligands are rendered as balls-and-sticks to allow the stereochemistry to be seen clearly, as well as arrows that are used to indicate directionality on both protein and DNA chains.",
-        "flex": 2,
-        "aspect": "1.2"
+        "aspect": 0.8
     },
     {
         "title": "Phosphoproteomics",
         "images": "Minardo_1.png,Minardo_2.png",
         "text": "We have developed Minardo, a novel layout strategy to visualise large-scale data with time profiles applied to the time-series data. Minardo has been used thus far to demonstrate a Snapshot of the Insulin Cell Signalling Pathway, and Phosphoregulation of Mitosis. In future work, we plan to develop Minardo into a web-based application tool, allowing interactive visualisation and ease of collaboration.",
-        "flex": 2,
-        "aspect": "1.2"
+        "flex": 4,
+        "aspect": 1.6
     },
     {
         "title": "3D Genomics",
         "images": "rondo.png",
         "text": "Rondo is a tool developed with a circular layout, to enable molecular biologists to interactively explore chromosome conformation data sets from a wide range of technologies, across numerous human and mouse cell lines. Rondo was used to study genomic rearrangements in cancer.",
-        "flex": 2,
-        "aspect": "1.2"
+        "flex": 4,
+        "aspect": 1.6
     },
     {
         "title": "Showcase",
         "images": "Showcase_1.png,Showcase_2.png,Showcase_3.png,Showcase_4.png,Showcase_5.png,Showcase_6.png",
-        "text": "some more info on Showcase",
-        "flex": 2,
-        "aspect": "1.2"
-    },
-    {
-        "title": "Data vis masterclass",
-        "images": "Masterclass.png",
-        "text": "some more info on Masterclass",
-        "flex": 2,
-        "aspect": "1.2"
+        "text": "The VizbiPlus project aims to improve how life science is communicated by creating exemplary scientifically-accurate animations designed to inspire and educate the public about cutting-edge biomedical research.",
+        "flex": 12,
+        "aspect": 4.8
     },
     {
         "title": "Versus",
         "images": "group18.png",
-        "text": "some more info on Versus",
-        "flex": 2,
-        "aspect": "1.2"
+        "text": "Versus is a method our team have developed to compare the effectiveness of alternative visualisations of data; it uses crowd-sourcing methods (e.g., Amazon's Mechanical Turk) to gather data from typically hundreds of participants, ensuring statistically significant outcomes. The approach is somewhat similar to A|B testing, but has the advantage that precise questions can be asked and detailed responses collected, thus enabling detailed comparison of the information that is visually communicated. It is particularly useful when rigorous evidence is needed to decide between alternative visualisations. We initially developed Versus to test visualisations of 3D molecular datasets, however the methodology is quite generic and can be used to assess almost any kind of visualisation. The approach of using crowdscouring to evaluate visualizxations is relatively new, fast growing, and highly promising. ",
+        "flex": 4,
+        "aspect": 1.6
+    },
+    {
+        "title": "Data vis masterclass",
+        "images": "Masterclass.png",
+        "text": "Do you work with large, complex datasets? Data visualization can help. Using principles of human visual perception with modern methods and tools, you can create insightful visual representations of complex data, as well as compelling visualizations for communication.\n\nHowever, there are few opportunities to receive training in these newly emerging visualization techniques. For this reason, we run Data Visualization Masterclass events, a one-day tour of state-of-the-art methods, taught by internationally acknowledged experts.\n\nThe Masterclass teaches you principles and practices for turning data into insightful visualizations that tell compelling stories. The class is for anyone working with data, including communicators, scientists, programmers, designers, and visual artists.\n\nThe key themes of the masterclass include: (1) Visual perception principles - dos and don'ts; (2) Key data visualization methods and tools - a practical guide; (3) Using visualization and animation for storytelling.\n",
+        "flex": 4,
+        "aspect": 1.6
     },
     {
         "title": "VIZBI conference",
         "images": "VIZBI.png",
         "text": "Data visualization is increasingly important in life science as data grows in volume and complexity. VIZBI is an international conference series on 'Visualizing Biological Data.' The conference brings together researchers in genomics, transcriptomics, proteomics, cells, organisms, and populations. VIZBI reviews the state of the art methods and future challenges. It is held annually in March, alternating between Europe and the USA, and is funded by EMBO.",
-        "flex": 2,
-        "aspect": "1.2"
+        "flex": 4,
+        "aspect": 1.6
     }
 ]

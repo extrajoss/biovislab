@@ -13,7 +13,7 @@
           <v-flex xs12
                   sm10>
             <keep-alive>
-              <router-view></router-view>
+              <router-view :key="$route.fullPath"></router-view>
             </keep-alive>
           </v-flex>
           <v-flex xs12
@@ -32,11 +32,7 @@
 
 <style>
 @import "vuetify/dist/vuetify.min.css";
-@import "http://fonts.googleapis.com/css?family=Roboto:300,
-  400,
-  500,
-  700,
-  400italic";
+@import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic";
 @import "http://fonts.googleapis.com/icon?family=Material+Icons";
 
 #app {

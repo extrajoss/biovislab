@@ -32,10 +32,10 @@
             </div>
           </v-flex>
         </v-layout>
-        <v-container>
+        <v-container grid-list-xl>
           <v-layout row
                     wrap>
-            <v-flex v-bind="{ [`sm7 xs12 `]: true }">
+            <v-flex v-bind="{ [`sm${card.imageRatio} xs12 `]: true }">
               <v-carousel v-if="hasMultiImages(card)">
                 <v-carousel-item v-for="(image,i) in getImages(card)"
                                  :key="i"
@@ -48,7 +48,7 @@
                      :aspect-ratio="card.aspect">
               </v-img>
             </v-flex>
-            <v-flex v-bind="{ [`sm5 xs12 `]: true }">
+            <v-flex v-bind="{ [`sm${card.textRatio} xs12 `]: true }">
               <v-container>
                 <v-card-title class="
           text-xs-center
@@ -127,27 +127,24 @@
 </style>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import rpc from '../modules/rpc'
 
 export default {
   name: 'cardGallery',
   props: ['title'],
   data () {
     return {
+      imageRatio: 7,
+      textRatio: 5,
+      cacheLoaded: false,
+      cards: [],
       mouseOver: false,
       currentMessageIndex: false,
       currentTitleIndex: false,
       gradient: `to top,${this.$vuetify.theme.secondary}A0  40px,${this.$vuetify.theme.secondary}00 80px, ${this.$vuetify.theme.secondary}00`
     }
   },
-  computed: {
-    cards () {
-      return this.$store.getters.Cards(this.title)
-    }
-  },
   methods: {
-    ...mapActions(['getCards', 'getCache']),
-    ...mapMutations(['Set_Cards']),
     getImages (card) {
       return card.images.split(',')
     },
@@ -228,38 +225,68 @@ export default {
       this.addMessageCard(selectedCardIndex)
     },
     addMessageCard (selectedCardIndex) {
-      let { title, text, images } = this.cards[selectedCardIndex]
+      let { title, text, images, aspect } = this.cards[selectedCardIndex]
       let { messageIndex, parentFlex, parentFlexTotal } = this.getMessageCardProperties(selectedCardIndex)
+      let imageRatio = Math.floor(aspect / (aspect + 1) * 12)
+      let textRatio = 12 - imageRatio
       this.currentMessageIndex = messageIndex
       this.cards.splice(messageIndex, 0, {
         isMessage: true,
-        title: title,
-        text: text,
-        images: images,
+        title,
+        text,
+        aspect,
+        images,
+        imageRatio,
+        textRatio,
         selectedflex: parentFlex,
         selectedflexOffset: parentFlexTotal,
         flex: 12
       })
     },
     deleteMessageCard () {
-      let cardsOnly = this.cards.filter((card) => {
+      this.cards = this.cards.filter((card) => {
         return !card.isMessage
       })
-      this.Set_Cards({Cards: cardsOnly, Title: this.title})
       if (this.currentTitleIndex >= 0 && this.cards[this.currentTitleIndex]) {
         delete this.cards[this.currentTitleIndex].isSelected
       }
       this.currentMessageIndex = false
       this.currentTitleIndex = false
+    },
+    async getCards () {
+      let response = await rpc.rpcRun('publicGetCards', {
+        'sheetTitle': this.title
+      })
+      let cards = response.result
+      if (cards) {
+        this.cards = cards
+      }
+    },
+    async getCache () {
+      if (this.cards && this.cacheLoaded) {
+        console.log(`state for ${this.title} already set`)
+        return false
+      }
+      let response = await rpc.rpcRun('publicGetCardsCache', {
+        'sheetTitle': this.title
+      })
+      let cards = response.result
+      this.cacheLoaded = true
+      console.log(`state for ${this.title} retrieved`, cards)
+      if (cards) {
+        this.cards = cards
+      }
+      return false
     }
+
   },
-  async beforeMount () {
+  async created () {
     let cacheLoaded = await this.getCache(this.title)
     if (cacheLoaded) {
       this.toggleMessageCard(0)
     }
   },
-  async mounted () {
+  async beforeMount () {
     if (!this.currentMessageIndex) {
       this.toggleMessageCard(0)
     }
@@ -269,6 +296,9 @@ export default {
       this.currentTitleIndex = false
       this.toggleMessageCard(0)
     }
+  },
+  mounted () {
+    console.log('mounted', this.title)
   }
 }
 </script>
